@@ -90,7 +90,7 @@ public class XP {
 			percent = 1.0;
 		}
 		if (ConfigOptions.bossbar) {
-			Player p = Bukkit.getPlayer(WolfAPI.getName(uuid));
+			Player p = Bukkit.getPlayer(WolfAPI.getPlayerName(uuid));
 			if (p.isOnline()) {
 				BossBar boss = bb.get(type);
 				boss.addPlayer(p);
@@ -139,7 +139,7 @@ public class XP {
 			percent = 1.0;
 		}
 		if (ConfigOptions.bossbar) {
-			Player p = Bukkit.getPlayer(WolfAPI.getName(uuid));
+			Player p = Bukkit.getPlayer(WolfAPI.getPlayerName(uuid));
 			if (p.isOnline()) {
 				BossBar boss = bb.get(type);
 				boss.addPlayer(p);
@@ -190,7 +190,7 @@ public class XP {
 			percent = 1.0;
 		}
 		if (ConfigOptions.bossbar) {
-			Player p = Bukkit.getPlayer(WolfAPI.getName(uuid));
+			Player p = Bukkit.getPlayer(WolfAPI.getPlayerName(uuid));
 			if (p.isOnline()) {
 				BossBar boss = bb.get(type);
 				boss.addPlayer(p);

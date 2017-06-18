@@ -17,18 +17,18 @@ public class XPManager {
 	}
 	
 	public static XP getPlayerXP(String name) {
-		return xp.get(WolfAPI.getUUID(name));
+		return xp.get(WolfAPI.getPlayerUUID(name));
 	}
 	
 	public static void addPlayerXP(String name) {
-		if (!xp.containsKey(WolfAPI.getUUID(name))) {
-			xp.put(WolfAPI.getUUID(name), new XP(WolfAPI.getUUID(name)));
+		if (!xp.containsKey(WolfAPI.getPlayerUUID(name))) {
+			xp.put(WolfAPI.getPlayerUUID(name), new XP(WolfAPI.getPlayerUUID(name)));
 		}
 	}
 	
 	public static void removePlayerXP(String name) {
-		if (xp.containsKey(WolfAPI.getUUID(name))) {
-			xp.remove(WolfAPI.getUUID(name));
+		if (xp.containsKey(WolfAPI.getPlayerUUID(name))) {
+			xp.remove(WolfAPI.getPlayerUUID(name));
 		}
 	}
 
