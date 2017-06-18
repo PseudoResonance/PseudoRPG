@@ -34,7 +34,7 @@ public class XP {
 		this.xp = xp;
 		this.xpLevel = xpLevel;
 		for (XPType type : XPType.values()) {
-			BossBar bar = Bukkit.getServer().createBossBar(ConfigOptions.bossBarPrefix + type.getName(), type.getBarColor(), BarStyle.SEGMENTED_20);
+			BossBar bar = Bukkit.getServer().createBossBar(type.getName(), type.getBarColor(), BarStyle.SEGMENTED_20);
 			bar.setProgress(0.0);
 			bb.put(type, bar);
 		}
@@ -45,7 +45,7 @@ public class XP {
 		for (XPType type : XPType.values()) {
 			xp.put(type, 0);
 			xpLevel.put(type, 0);
-			BossBar bar = Bukkit.getServer().createBossBar(ConfigOptions.bossBarPrefix + type.getName(), type.getBarColor(), BarStyle.SEGMENTED_10);
+			BossBar bar = Bukkit.getServer().createBossBar(type.getName(), type.getBarColor(), BarStyle.SEGMENTED_10);
 			bar.setProgress(0.0);
 			bb.put(type, bar);
 		}
@@ -174,7 +174,14 @@ public class XP {
 				BossBar boss = bb.get(type);
 				boss.addPlayer(p);
 				boss.setProgress(percent);
-				boss.setTitle(ConfigOptions.bossBarPrefix + type.getName() + ": " + l);
+				String format = ConfigOptions.bossBarMessage;
+				format = format.replace("%SKILL%", type.getName());
+				format = format.replace("%LEVEL%", String.valueOf(l));
+				format = format.replace("%XP%", String.valueOf(i));
+				format = format.replace("%LEVELXP%", String.valueOf(total));
+				int xpObtained = getXPTotal(l) + i;
+				format = format.replace("%TOTALXP%", String.valueOf(xpObtained));
+				boss.setTitle(format);
 				boss.setVisible(true);
 				if (bbd.containsKey(type)) {
 					bbd.get(type).cancel();

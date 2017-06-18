@@ -3,7 +3,7 @@
 ###################
 
 #DO NOT CHANGE THIS LINE! YOUR CONFIG WILL BE RESET UPON LOADING IF THIS LINE IS EDITED!
-Version: 2
+Version: 3
 
 ###########
 #Inventory#
@@ -27,14 +27,19 @@ FireworkCount: 5
 #Display XP on BossBar?
 BossBar: true
 
-#BossBar Prefix
-BossBarPrefix: red,bold
-
 #BossBar Style (SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12 or SEGMENTED_20)
 BossBarStyle: SEGMENTED_20
 
 #Delay before boss bar disappears
 BossBarDelay: 200
+
+#BossBar Message
+#%SKILL% = Skill Name
+#%LEVEL% = Level
+#%XP% = XP Amount
+#%LEVELXP% = Required XP to level up
+#%TOTALXP% = Total XP obtained
+BossBarMessage: §c§l%SKILL% - %LEVEL% (%XP% / %LEVELXP%)
 
 #XP Definitions in xp.yml File
 

@@ -16,13 +16,13 @@ public class ConfigOptions implements ConfigOption {
 	public static int fireworkCount = 5;
 	public static boolean bossbar = true;
 	public static String inventoryPrefix = "§c§l";
-	public static String bossBarPrefix = "§e§l";
 	public static BarStyle bossBarStyle = BarStyle.SEGMENTED_20;
 	public static int bossBarDelay = 200;
+	public static String bossBarMessage = "§c§l%SKILL% - %LEVEL% (%XP% / %LEVELXP%)";
 	public static double extraOreChance = 2.5;
 
 	public static boolean updateConfig() {
-		if (RPG.plugin.getConfig().getInt("Version") == 1) {
+		if (RPG.plugin.getConfig().getInt("Version") == 3) {
 			Message.sendConsoleMessage(ChatColor.GREEN + "Config is up to date!");
 		} else {
 			try {
@@ -93,24 +93,6 @@ public class ConfigOptions implements ConfigOption {
 			}
 		}
 		inventoryPrefix = arrayToString(inventoryPrefixl.toArray(new ChatColor[inventoryPrefixl.size()]));
-		String[] bossBarPrefixs = RPG.plugin.getConfig().getString("BossBarPrefix").split(",");
-		List<ChatColor> bossBarPrefixl = new ArrayList<ChatColor>();
-		for (String s : bossBarPrefixs) {
-			try {
-				if (s.length() == 1) {
-					if (ChatColor.getByChar(s.charAt(0)) == null) {
-						Message.sendConsoleMessage(ChatColor.RED + "Invalid config option for BossBarPrefix!");
-					} else {
-						bossBarPrefixl.add(ChatColor.getByChar(s.charAt(0)));
-					}
-				} else {
-					bossBarPrefixl.add(Enum.valueOf(ChatColor.class, s.toUpperCase()));
-				}
-			} catch (Exception e) {
-				Message.sendConsoleMessage(ChatColor.RED + "Invalid config option for BossBarPrefix!");
-			}
-		}
-		bossBarPrefix = arrayToString(bossBarPrefixl.toArray(new ChatColor[bossBarPrefixl.size()]));
 		try {
 			String s = RPG.plugin.getConfig().getString("BossBarStyle");
 			bossBarStyle = BarStyle.valueOf(s.toUpperCase());
@@ -121,6 +103,11 @@ public class ConfigOptions implements ConfigOption {
 			bossBarDelay = RPG.plugin.getConfig().getInt("BossBarDelay");
 		} catch (Exception e) {
 			Message.sendConsoleMessage(ChatColor.RED + "Invalid config option for BossBarDelay!");
+		}
+		try {
+			bossBarMessage = RPG.plugin.getConfig().getString("BossBarMessage");
+		} catch (Exception e) {
+			Message.sendConsoleMessage(ChatColor.RED + "Invalid config option for BossBarMessage!");
 		}
 		try {
 			extraOreChance = RPG.plugin.getConfig().getDouble("ExtraOreChance");
