@@ -4,12 +4,15 @@ coal_ore:
   mining: 5
 iron_ore:
   mining: 25
+  smelting: 25
 gold_ore:
   mining: 50
+  smelting: 50
 lapis_ore:
   mining: 40
 diamond_ore:
   mining: 75
+  smelting: 75
 emerald_ore:
   mining: 75
 quartz_ore:

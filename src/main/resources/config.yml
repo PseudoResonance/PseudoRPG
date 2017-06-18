@@ -17,6 +17,13 @@ InventoryPrefix: yellow,bold
 #Experience#
 ############
 
+#Interval of Levels for Fireworks
+#Set to 0 to disable
+FireworkInterval: 10
+
+#Numbere of fireworks spawned
+FireworkCount: 5
+
 #Display XP on BossBar?
 BossBar: true
 
@@ -30,3 +37,11 @@ BossBarStyle: SEGMENTED_20
 BossBarDelay: 200
 
 #XP Definitions in xp.yml File
+
+
+##########
+#Smelting#
+##########
+
+#Chance of extra ore multiplier
+ExtraOreChance: 2.5

@@ -12,11 +12,14 @@ import net.md_5.bungee.api.ChatColor;
 
 public class ConfigOptions implements ConfigOption {
 
+	public static int fireworkInterval = 10;
+	public static int fireworkCount = 5;
 	public static boolean bossbar = true;
 	public static String inventoryPrefix = "§c§l";
 	public static String bossBarPrefix = "§e§l";
 	public static BarStyle bossBarStyle = BarStyle.SEGMENTED_20;
 	public static int bossBarDelay = 200;
+	public static double extraOreChance = 2.5;
 
 	public static boolean updateConfig() {
 		if (RPG.plugin.getConfig().getInt("Version") == 1) {
@@ -49,6 +52,16 @@ public class ConfigOptions implements ConfigOption {
 	}
 
 	public void reloadConfig() {
+		try {
+			fireworkInterval = RPG.plugin.getConfig().getInt("FireworkInterval");
+		} catch (Exception e) {
+			Message.sendConsoleMessage(ChatColor.RED + "Invalid config option for FireworkInterval!");
+		}
+		try {
+			fireworkCount = RPG.plugin.getConfig().getInt("FireworkCount");
+		} catch (Exception e) {
+			Message.sendConsoleMessage(ChatColor.RED + "Invalid config option for FireworkCount!");
+		}
 		try {
 			String s = RPG.plugin.getConfig().getString("BossBar");
 			if (s.equalsIgnoreCase("true")) {
@@ -108,6 +121,11 @@ public class ConfigOptions implements ConfigOption {
 			bossBarDelay = RPG.plugin.getConfig().getInt("BossBarDelay");
 		} catch (Exception e) {
 			Message.sendConsoleMessage(ChatColor.RED + "Invalid config option for BossBarDelay!");
+		}
+		try {
+			extraOreChance = RPG.plugin.getConfig().getDouble("ExtraOreChance");
+		} catch (Exception e) {
+			Message.sendConsoleMessage(ChatColor.RED + "Invalid config option for ExtraOreChances!");
 		}
 		DataController.updateBackend();
 	}

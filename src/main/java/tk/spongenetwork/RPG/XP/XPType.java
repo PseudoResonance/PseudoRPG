@@ -7,6 +7,7 @@ public enum XPType {
 	WOOD("wood", "Wood", BarColor.GREEN),
 	MINING("mining", "Mining", BarColor.WHITE),
 	FISHING("fishing", "Fishing", BarColor.BLUE),
+	SMELTING("smelting", "Smelting", BarColor.PINK),
 	CRAFTING("crafting", "Crafting", BarColor.YELLOW),
 	BLACKSMITH("blacksmith", "Blacksmith", BarColor.RED);
 	

@@ -10,6 +10,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import tk.spongenetwork.RPG.DataController;
 import tk.spongenetwork.RPG.XP.XP;
 import tk.spongenetwork.RPG.XP.XPManager;
+import tk.spongenetwork.RPG.XP.XPType;
 import tk.spongenetwork.RPG.XP.XPTypeYield;
 import tk.spongenetwork.RPG.XP.XPYield;
 
@@ -34,7 +35,9 @@ public class BlockBreakEH implements Listener {
 			if (xpy != null) {
 				XP xp = XPManager.getPlayerXP(e.getPlayer().getName());
 				for (XPTypeYield xpty : xpy.getYield()) {
-					xp.addXP(xpty.getType(), xpty.getAmount());
+					if (xpty.getType() != XPType.SMELTING) {
+						xp.addXP(xpty.getType(), xpty.getAmount());
+					}
 				}
 			}
 		}
