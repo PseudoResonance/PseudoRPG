@@ -89,9 +89,17 @@ public class XP {
 		int l = xpLevel.get(type);
 		int diff = getXPDifference(l + 1, l);
 		if (x >= diff) {
-			int add = x - diff;
-			xpLevel.put(type, l + 1);
-			xp.put(type, add);
+			while (x >= diff) {
+				int add = x - diff;
+				xpLevel.put(type, l + 1);
+				xp.put(type, add);
+				x = add;
+				l++;
+				diff = getXPDifference(l + 1, l);
+				if (l % ConfigOptions.fireworkInterval == 0) {
+					fireworks(type);
+				}
+			}
 		} else {
 			xp.put(type, x);
 		}
@@ -108,10 +116,17 @@ public class XP {
 		int l = xpLevel.get(type);
 		int diff = getXPDifference(l + 1, l);
 		if (i >= diff) {
-			int add = i - diff;
-			xpLevel.put(type, l + 1);
-			xp.put(type, add);
-			fireworks(type);
+			while (i >= diff) {
+				int add = i - diff;
+				xpLevel.put(type, l + 1);
+				xp.put(type, add);
+				i = add;
+				l++;
+				diff = getXPDifference(l + 1, l);
+				if (l % ConfigOptions.fireworkInterval == 0) {
+					fireworks(type);
+				}
+			}
 		} else {
 			xp.put(type, i);
 		}
@@ -131,10 +146,12 @@ public class XP {
 		i -= x;
 		int l = xpLevel.get(type);
 		if (i < 0) {
-			int diff = getXPDifference(l, l - 1);
-			int remove = diff + i;
-			xpLevel.put(type, l - 1);
-			xp.put(type, remove);
+			while (i < 0) {
+				int diff = getXPDifference(l, l - 1);
+				int remove = diff + i;
+				xpLevel.put(type, l - 1);
+				xp.put(type, remove);
+			}
 		} else {
 			xp.put(type, i);
 		}
@@ -173,18 +190,15 @@ public class XP {
 	public void fireworks(XPType type) {
 		Player p = Bukkit.getServer().getPlayer(WolfAPI.getPlayerName(uuid));
 		if (p != null) {
-			int i = xpLevel.get(type);
-			if (i % ConfigOptions.fireworkInterval == 0) {
-				for (int x = 0; x < ConfigOptions.fireworkCount; x++) {
-					Firework fw = (Firework) p.getWorld().spawnEntity(p.getLocation(), EntityType.FIREWORK);
-					FireworkMeta fwm = fw.getFireworkMeta();
-					Color c1 = Color.fromRGB(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255));
-					Color c2 = Color.fromRGB(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255));
-					FireworkEffect effect = FireworkEffect.builder().flicker(rand.nextBoolean()).withColor(c1).withFade(c2).with(Type.BALL).trail(rand.nextBoolean()).build();
-					fwm.addEffect(effect);
-					fwm.setPower(1);
-					fw.setFireworkMeta(fwm);
-				}
+			for (int x = 0; x < ConfigOptions.fireworkCount; x++) {
+				Firework fw = (Firework) p.getWorld().spawnEntity(p.getLocation(), EntityType.FIREWORK);
+				FireworkMeta fwm = fw.getFireworkMeta();
+				Color c1 = Color.fromRGB(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255));
+				Color c2 = Color.fromRGB(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255));
+				FireworkEffect effect = FireworkEffect.builder().flicker(rand.nextBoolean()).withColor(c1).withFade(c2).with(Type.BALL).trail(rand.nextBoolean()).build();
+				fwm.addEffect(effect);
+				fwm.setPower(1);
+				fw.setFireworkMeta(fwm);
 			}
 		}
 
