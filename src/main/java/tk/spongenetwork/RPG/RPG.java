@@ -11,6 +11,7 @@ import tk.spongenetwork.RPG.commands.ReloadSC;
 import tk.spongenetwork.RPG.commands.ResetSC;
 import tk.spongenetwork.RPG.completers.RPGTC;
 import tk.spongenetwork.RPG.events.BlockBreakEH;
+import tk.spongenetwork.RPG.events.EntityDamageEH;
 import tk.spongenetwork.RPG.events.EntityDeathEH;
 import tk.spongenetwork.RPG.events.InventoryClickEH;
 import tk.spongenetwork.RPG.events.PlayerInteractEH;
@@ -82,6 +83,7 @@ public class RPG extends WolfPlugin {
 		getServer().getPluginManager().registerEvents(new BlockBreakEH(), this);
 		getServer().getPluginManager().registerEvents(new PlayerJoinEH(), this);
 		getServer().getPluginManager().registerEvents(new EntityDeathEH(), this);
+		getServer().getPluginManager().registerEvents(new EntityDamageEH(), this);
 		getServer().getPluginManager().registerEvents(new PlayerInteractEH(), this);
 		getServer().getPluginManager().registerEvents(new InventoryClickEH(), this);
 	}
