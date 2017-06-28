@@ -38,11 +38,11 @@ public class EntityDamageEH implements Listener {
 				if (dc == DamageCause.ENTITY_ATTACK) {
 					double modifier = ConfigOptions.criticalMultiplier * criticalCalculator(xp.getLevel(XPType.HUNTING));
 					e.setDamage(e.getDamage() * modifier);
-					calculateXP(entity, player);
+					calculateXP(entity.getType(), player);
 				} else if (dc == DamageCause.ENTITY_SWEEP_ATTACK) {
 					double modifier = ConfigOptions.sweepingCriticalMultiplier * sweepingCriticalCalculator(xp.getLevel(XPType.HUNTING));
 					e.setDamage(e.getDamage() * modifier);
-					calculateXP(entity, player);
+					calculateXP(entity.getType(), player);
 				}
 			}
 		} else if (damager instanceof Arrow) {
@@ -55,14 +55,13 @@ public class EntityDamageEH implements Listener {
 				if (gm == GameMode.SURVIVAL || gm == GameMode.ADVENTURE) {
 					double modifier = ConfigOptions.criticalMultiplier * criticalCalculator(xp.getLevel(XPType.HUNTING));
 					e.setDamage(e.getDamage() * modifier);
-					calculateXP(entity, player);
+					calculateXP(entity.getType(), player);
 				}
 			}
 		}
 	}
 	
-	private void calculateXP(Entity entity, Player p) {
-		EntityType et = entity.getType();
+	private void calculateXP(EntityType et, Player p) {
 		if (DataController.huntYield.containsKey(et)) {
 			XPYield xpy = DataController.huntYield.get(et);
 			XP xp = XPManager.getPlayerXP(p.getName());
@@ -86,6 +85,7 @@ public class EntityDamageEH implements Listener {
 		if (rand < difference) {
 			extra++;
 		}
+		extra++;
 		return extra;
 	}
 
@@ -97,6 +97,7 @@ public class EntityDamageEH implements Listener {
 		if (rand < difference) {
 			extra++;
 		}
+		extra++;
 		return extra;
 	}
 }
