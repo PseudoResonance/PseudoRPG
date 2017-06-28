@@ -33,7 +33,7 @@ public class ConfigOptions implements ConfigOption {
 	public static boolean updateConfig() {
 		boolean error = false;
 		Config xp = new Config("xp.yml", RPG.plugin);
-		if (xp.getConfig().getInt("version") != 1) {
+		if (xp.getConfig().getInt("version") != 2) {
 			try {
 				String oldFile = "";
 				File conf = new File(RPG.plugin.getDataFolder(), "xp.yml");
@@ -56,7 +56,7 @@ public class ConfigOptions implements ConfigOption {
 				error = true;
 			}
 		}
-		if (RPG.plugin.getConfig().getInt("Version") != 3) {
+		if (RPG.plugin.getConfig().getInt("Version") != 4) {
 			try {
 				String oldFile = "";
 				File conf = new File(RPG.plugin.getDataFolder(), "config.yml");
