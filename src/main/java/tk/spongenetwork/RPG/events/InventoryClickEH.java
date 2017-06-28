@@ -53,10 +53,10 @@ public class InventoryClickEH implements Listener {
 										p.getWorld().dropItem(p.getLocation(), i);
 									}
 									XPYield xpy = null;
-									if (DataController.yield.containsKey("gold_ore,0")) {
-										xpy = DataController.yield.get("gold_ore,0");
-									} else if (DataController.yield.containsKey("gold_ore")) {
-										xpy = DataController.yield.get("gold_ore");
+									if (DataController.smeltYield.containsKey("gold_ore,0")) {
+										xpy = DataController.smeltYield.get("gold_ore,0");
+									} else if (DataController.smeltYield.containsKey("gold_ore")) {
+										xpy = DataController.smeltYield.get("gold_ore");
 									}
 									if (xpy != null) {
 										for (XPTypeYield xpty : xpy.getYield()) {
@@ -75,10 +75,10 @@ public class InventoryClickEH implements Listener {
 										p.getWorld().dropItem(p.getLocation(), i);
 									}
 									XPYield xpy = null;
-									if (DataController.yield.containsKey("diamond_ore,0")) {
-										xpy = DataController.yield.get("diamond_ore,0");
-									} else if (DataController.yield.containsKey("diamond_ore")) {
-										xpy = DataController.yield.get("diamond_ore");
+									if (DataController.smeltYield.containsKey("diamond_ore,0")) {
+										xpy = DataController.smeltYield.get("diamond_ore,0");
+									} else if (DataController.smeltYield.containsKey("diamond_ore")) {
+										xpy = DataController.smeltYield.get("diamond_ore");
 									}
 									if (xpy != null) {
 										for (XPTypeYield xpty : xpy.getYield()) {
@@ -97,10 +97,10 @@ public class InventoryClickEH implements Listener {
 										p.getWorld().dropItem(p.getLocation(), i);
 									}
 									XPYield xpy = null;
-									if (DataController.yield.containsKey("iron_ore,0")) {
-										xpy = DataController.yield.get("iron_ore,0");
-									} else if (DataController.yield.containsKey("iron_ore")) {
-										xpy = DataController.yield.get("iron_ore");
+									if (DataController.smeltYield.containsKey("iron_ore,0")) {
+										xpy = DataController.smeltYield.get("iron_ore,0");
+									} else if (DataController.smeltYield.containsKey("iron_ore")) {
+										xpy = DataController.smeltYield.get("iron_ore");
 									}
 									if (xpy != null) {
 										for (XPTypeYield xpty : xpy.getYield()) {
@@ -134,7 +134,7 @@ public class InventoryClickEH implements Listener {
 	}
 
 	private int extraOreCalculator(int level) {
-		double chance = ConfigOptions.extraOreChance * (double) level;
+		double chance = ConfigOptions.smeltingExtraOreChance * (double) level;
 		int extra = (int) Math.floor(chance / 100);
 		double difference = chance - extra;
 		int rand = random.nextInt(100);

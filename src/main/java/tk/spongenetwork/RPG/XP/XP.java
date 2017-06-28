@@ -7,7 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
-import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
@@ -34,7 +33,7 @@ public class XP {
 		this.xp = xp;
 		this.xpLevel = xpLevel;
 		for (XPType type : XPType.values()) {
-			BossBar bar = Bukkit.getServer().createBossBar(type.getName(), type.getBarColor(), BarStyle.SEGMENTED_20);
+			BossBar bar = Bukkit.getServer().createBossBar(type.getName(), type.getBarColor(), ConfigOptions.bossBarStyle);
 			bar.setProgress(0.0);
 			bb.put(type, bar);
 		}
@@ -45,7 +44,7 @@ public class XP {
 		for (XPType type : XPType.values()) {
 			xp.put(type, 0);
 			xpLevel.put(type, 0);
-			BossBar bar = Bukkit.getServer().createBossBar(type.getName(), type.getBarColor(), BarStyle.SEGMENTED_10);
+			BossBar bar = Bukkit.getServer().createBossBar(type.getName(), type.getBarColor(), ConfigOptions.bossBarStyle);
 			bar.setProgress(0.0);
 			bb.put(type, bar);
 		}

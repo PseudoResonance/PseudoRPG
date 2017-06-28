@@ -1,7 +1,7 @@
 name: RPG
 author: Newoace, WolfLeader116
 main: tk.spongenetwork.RPG.RPG
-version: 0.1.8
+version: 0.1.9
 description: SpongeNetwork RPG Plugin
 depend: [WolfAPI]
 commands:

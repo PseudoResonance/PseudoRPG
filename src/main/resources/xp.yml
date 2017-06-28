@@ -1,25 +1,132 @@
-stone:
-  mining: 1
-coal_ore:
-  mining: 5
-iron_ore:
-  mining: 25
-  smelting: 25
-gold_ore:
-  mining: 50
-  smelting: 50
-lapis_ore:
-  mining: 40
-diamond_ore:
-  mining: 75
-  smelting: 75
-emerald_ore:
-  mining: 75
-quartz_ore:
-  mining: 5
-obsidian:
-  mining: 2
-log:
-  wood: 5
-log_2:
-  wood: 5
+version: 2
+breaking:
+  stone:
+    mining: 1
+  coal_ore:
+    mining: 5
+  iron_ore:
+    mining: 25
+  gold_ore:
+    mining: 50
+  lapis_ore:
+    mining: 40
+  diamond_ore:
+    mining: 75
+  emerald_ore:
+    mining: 75
+  quartz_ore:
+    mining: 5
+  obsidian:
+    mining: 2
+  log:
+    wood: 5
+  log_2:
+    wood: 5
+smelting:
+  iron_ore:
+    smelting: 50
+  gold_ore:
+    smelting: 50
+  diamond_ore:
+    smelting: 75
+hunting:
+  zombie:
+    hunting: 12
+  skeleton:
+    hunting: 14
+  creeper:
+    hunting: 16
+  spider:
+    hunting: 16
+  cave_spider:
+    hunting: 20
+  blaze:
+    hunting: 30
+  bat:
+    hunting: 5
+  chicken:
+    hunting: 3
+  cow:
+    hunting: 8
+  donkey:
+    hunting: 10
+  horse:
+    hunting: 10
+  elder_guardian:
+    hunting: 850
+  ender_dragon:
+    hunting: 3000
+  wither:
+    hunting: 1500
+  enderman:
+    hunting: 80
+  endermite:
+    hunting: 30
+  evoker:
+    hunting: 500
+  ghast:
+    hunting: 30
+  giant:
+    hunting: 400
+  guardian:
+    hunting: 60
+  husk:
+    hunting: 14
+  illager:
+    hunting: 30
+  illusioner:
+    hunting: 50
+  iron_golem:
+    hunting: 125
+  llama:
+    hunting: 10
+  magma_cube:
+    hunting: 22
+  slime:
+    hunting: 20
+  mule:
+    hunting: 10
+  mushroom_cow:
+    hunting: 9
+  ocelot:
+    hunting: 8
+  parrot:
+    hunting: 8
+  pig:
+    hunting: 8
+  player:
+    hunting: 30
+  polarbear:
+    hunting: 10
+  rabbit:
+    hunting: 5
+  sheep:
+    hunting: 8
+  shulker:
+    hunting: 35
+  silverfish:
+    hunting: 25
+  skeleton_horse:
+    hunting: 15
+  snowman:
+    hunting: 30
+  squid:
+    hunting: 8
+  stray:
+    hunting: 16
+  vex:
+    hunting: 30
+  villager:
+    hunting: 10
+  vindicator:
+    hunting: 50
+  witch:
+    hunting: 30
+  wither_skeleton:
+    hunting: 30
+  wolf:
+    hunting: 8
+  zombie_horse:
+    hunting: 15
+  zombie_villager:
+    hunting: 12
