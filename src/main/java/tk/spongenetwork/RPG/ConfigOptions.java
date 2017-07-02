@@ -24,7 +24,7 @@ public class ConfigOptions implements ConfigOption {
 	public static double miningExtraOreChance = 2.5;
 	public static ArrayList<Material> extraOre = new ArrayList<Material>();
 	public static double smeltingExtraOreChance = 2.5;
-	public static double damageModifier = 0.1;
+	public static double damageModifier = 0.65;
 	public static double criticalChance = 1.5;
 	public static double criticalMultiplier = 1.5;
 	public static double sweepingCriticalChance = 1.5;
@@ -56,7 +56,7 @@ public class ConfigOptions implements ConfigOption {
 				error = true;
 			}
 		}
-		if (RPG.plugin.getConfig().getInt("Version") != 4) {
+		if (RPG.plugin.getConfig().getInt("Version") != 5) {
 			try {
 				String oldFile = "";
 				File conf = new File(RPG.plugin.getDataFolder(), "config.yml");

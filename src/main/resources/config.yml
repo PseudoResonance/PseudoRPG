@@ -3,7 +3,7 @@
 ###################
 
 #DO NOT CHANGE THIS LINE! YOUR CONFIG WILL BE RESET UPON LOADING IF THIS LINE IS EDITED!
-Version: 4
+Version: 5
 
 ###########
 #Inventory#
@@ -87,7 +87,11 @@ Smelting:
 Hunting:
 
   #Modifier applied to XP gain when mob is damaged but not killed
-  DamageModifier: 0.1
+  #Original damage = damage dealt / max mob health
+  #Original damage is multiplied by modifier
+  #Modifier is multiplied by XP return for killed mob
+  #(damage dealt / max mob health) * (regular xp return * modifier)
+  DamageModifier: 0.65
   
   #Chance of critical multiplier
   CriticalChance: 1.5
