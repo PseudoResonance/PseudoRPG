@@ -148,10 +148,6 @@ public class XP {
 				xp.put(type, add);
 				i = add;
 				l++;
-				diff = getXPDifference(l + 1, l);
-				if (l % ConfigOptions.fireworkInterval == 0) {
-					fireworks(type);
-				}
 			}
 		}
 		displayBossBar(type);

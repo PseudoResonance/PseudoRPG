@@ -75,6 +75,9 @@ public class EntityDamageEH implements Listener {
 					int i = xpty.getAmount();
 					i *= ConfigOptions.damageModifier;
 					double percent = damage / mobHealth;
+					if (percent > 1.0) {
+						percent = 1.0;
+					}
 					int xpFinal = (int) Math.floor(i * percent);
 					if (i > 0) {
 						xp.addXP(xpty.getType(), xpFinal);
