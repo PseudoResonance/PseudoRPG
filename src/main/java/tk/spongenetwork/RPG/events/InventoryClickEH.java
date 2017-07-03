@@ -60,8 +60,13 @@ public class InventoryClickEH implements Listener {
 									}
 									if (xpy != null) {
 										for (XPTypeYield xpty : xpy.getYield()) {
-											if (xpty.getType() == XPType.SMELTING) {
-												xp.addXP(XPType.SMELTING, xpty.getAmount());
+											if (p.hasPermission("rpg.xp." + xpty.getType().getID())) {
+												int i = xpty.getAmount();
+												if (i > 0) {
+													xp.addXP(xpty.getType(), i);
+												} else if (i < 0) {
+													xp.removeXP(xpty.getType(), i);
+												}
 											}
 										}
 									}
@@ -82,8 +87,13 @@ public class InventoryClickEH implements Listener {
 									}
 									if (xpy != null) {
 										for (XPTypeYield xpty : xpy.getYield()) {
-											if (xpty.getType() == XPType.SMELTING) {
-												xp.addXP(XPType.SMELTING, xpty.getAmount());
+											if (p.hasPermission("rpg.xp." + xpty.getType().getID())) {
+												int i = xpty.getAmount();
+												if (i > 0) {
+													xp.addXP(xpty.getType(), i);
+												} else if (i < 0) {
+													xp.removeXP(xpty.getType(), i);
+												}
 											}
 										}
 									}
@@ -104,8 +114,13 @@ public class InventoryClickEH implements Listener {
 									}
 									if (xpy != null) {
 										for (XPTypeYield xpty : xpy.getYield()) {
-											if (xpty.getType() == XPType.SMELTING) {
-												xp.addXP(XPType.SMELTING, xpty.getAmount());
+											if (p.hasPermission("rpg.xp." + xpty.getType().getID())) {
+												int i = xpty.getAmount();
+												if (i > 0) {
+													xp.addXP(xpty.getType(), i);
+												} else if (i < 0) {
+													xp.removeXP(xpty.getType(), i);
+												}
 											}
 										}
 									}

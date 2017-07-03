@@ -43,11 +43,13 @@ public class BlockBreakEH implements Listener {
 				XP xp = XPManager.getPlayerXP(e.getPlayer().getName());
 				if (xpy != null) {
 					for (XPTypeYield xpty : xpy.getYield()) {
-						int i = xpty.getAmount();
-						if (i > 0) {
-							xp.addXP(xpty.getType(), i);
-						} else if (i < 0) {
-							xp.removeXP(xpty.getType(), i);
+						if (e.getPlayer().hasPermission("rpg.xp." + xpty.getType().getID())) {
+							int i = xpty.getAmount();
+							if (i > 0) {
+								xp.addXP(xpty.getType(), i);
+							} else if (i < 0) {
+								xp.removeXP(xpty.getType(), i);
+							}
 						}
 					}
 				}

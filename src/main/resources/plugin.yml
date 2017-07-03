@@ -1,13 +1,43 @@
 name: RPG
-author: Newoace, WolfLeader116
+author: WolfLeader116 and Newoace
 main: tk.spongenetwork.RPG.RPG
-version: 0.1.13
+version: 0.1.14
 description: SpongeNetwork RPG Plugin
 depend: [WolfAPI]
 commands:
   rpg:
     description: RPG Menu
+  rpgxp:
+    description: Displays XP Stats
+  xpskill:
+    description: Displays Skill XP Stats
+  givexp:
+    description: Gives XP
+  takexp:
+    description: Takes XP
+  setxp:
+    description: Setss XP
 permissions:
+  rpg.xp:
+    description: Allows the player to view xp stats
+    default: true
+    children:
+      rpg.xp.skill.*: true
+  rpg.xp.other:
+    description: Allows the player to view xp stats for other players
+    default: op
+    children:
+      rpg.xp: true
+      rpg.xp.other.*: true
+  rpg.givexp:
+    description: Allows the player to give xp
+    default: op
+  rpg.takexp:
+    description: Allows the player to take xp
+    default: op
+  rpg.setxp:
+    description: Allows the player to set xp
+    default: op
   rpg.reload:
     description: Allows the player to reload the plugin
     default: op
@@ -15,8 +45,13 @@ permissions:
     description: Allows the player to reset the plugin
     default: op
   rpg.*:
-    description: Gives the user all WolfAPI permissions
+    description: Gives the user all RPG permissions
     default: op
     children:
       rpg.reload: true
       rpg.reset: true
+      rpg.xp: true
+      rpg.xp.other: true
+      rpg.givexp: true
+      rpg.takexp: true
+      rpg.setxp: true

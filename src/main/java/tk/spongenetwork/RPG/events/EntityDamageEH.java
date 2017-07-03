@@ -71,14 +71,16 @@ public class EntityDamageEH implements Listener {
 			XPYield xpy = DataController.huntYield.get(et);
 			XP xp = XPManager.getPlayerXP(p.getName());
 			for (XPTypeYield xpty : xpy.getYield()) {
-				int i = xpty.getAmount();
-				i *= ConfigOptions.damageModifier;
-				int percent = (int) Math.floor(damage / mobHealth);
-				i *= percent;
-				if (i > 0) {
-					xp.addXP(xpty.getType(), i);
-				} else if (i < 0) {
-					xp.removeXP(xpty.getType(), i);
+				if (p.hasPermission("rpg.xp." + xpty.getType().getID())) {
+					int i = xpty.getAmount();
+					i *= ConfigOptions.damageModifier;
+					double percent = damage / mobHealth;
+					int xpFinal = (int) Math.floor(i * percent);
+					if (i > 0) {
+						xp.addXP(xpty.getType(), xpFinal);
+					} else if (i < 0) {
+						xp.removeXP(xpty.getType(), xpFinal);
+					}
 				}
 			}
 		}

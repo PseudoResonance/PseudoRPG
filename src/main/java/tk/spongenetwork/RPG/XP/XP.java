@@ -49,6 +49,10 @@ public class XP {
 			bb.put(type, bar);
 		}
 	}
+	
+	public String getUUID() {
+		return this.uuid;
+	}
 
 	public void setInitialXP(XPType type, int x) {
 		XPLevel xpl = getXPLevel(x);
@@ -85,28 +89,55 @@ public class XP {
 	}
 
 	public void setXP(XPType type, int x) {
-		int l = xpLevel.get(type);
-		int diff = getXPDifference(l + 1, l);
-		if (x >= diff) {
-			while (x >= diff) {
-				int add = x - diff;
-				xpLevel.put(type, l + 1);
-				xp.put(type, add);
-				x = add;
-				l++;
-				diff = getXPDifference(l + 1, l);
-				if (l % ConfigOptions.fireworkInterval == 0) {
-					fireworks(type);
+		if (x >= 0) {
+			int l = xpLevel.get(type);
+			int diff = getXPDifference(l + 1, l);
+			if (x >= diff) {
+				while (x >= diff) {
+					int add = x - diff;
+					xpLevel.put(type, l + 1);
+					xp.put(type, add);
+					x = add;
+					l++;
+					diff = getXPDifference(l + 1, l);
+					if (l % ConfigOptions.fireworkInterval == 0) {
+						fireworks(type);
+					}
 				}
+			} else {
+				xp.put(type, x);
 			}
 		} else {
-			xp.put(type, x);
+			int i = xp.get(type);
+			i -= x;
+			int l = xpLevel.get(type);
+			if (i < 0) {
+				while (i < 0) {
+					if ((l - 1) <= 0) {
+						xpLevel.put(type, l);
+						xp.put(type, 0);
+						break;
+					}
+					int diff = getXPDifference(l, l - 1);
+					int remove = diff + i;
+					xpLevel.put(type, l - 1);
+					xp.put(type, remove);
+					i = remove;
+					l--;
+				}
+			} else {
+				xp.put(type, i);
+			}
 		}
 		displayBossBar(type);
 	}
 
 	public void setLevel(XPType type, int x) {
+		if (x <= 0) {
+			x = 1;
+		}
 		xpLevel.put(type, x);
+		displayBossBar(type);
 	}
 
 	public void addXP(XPType type, int x) {
@@ -137,7 +168,9 @@ public class XP {
 		i += x;
 		xpLevel.put(type, i);
 		displayBossBar(type);
-		fireworks(type);
+		if (i % ConfigOptions.fireworkInterval == 0) {
+			fireworks(type);
+		}
 	}
 
 	public void removeXP(XPType type, int x) {
@@ -146,14 +179,32 @@ public class XP {
 		int l = xpLevel.get(type);
 		if (i < 0) {
 			while (i < 0) {
+				if ((l - 1) <= 0) {
+					xpLevel.put(type, l);
+					xp.put(type, 0);
+					break;
+				}
 				int diff = getXPDifference(l, l - 1);
 				int remove = diff + i;
 				xpLevel.put(type, l - 1);
 				xp.put(type, remove);
+				i = remove;
+				l--;
 			}
 		} else {
 			xp.put(type, i);
 		}
+		displayBossBar(type);
+	}
+
+	public void removeLevel(XPType type, int x) {
+		int i = xpLevel.get(type);
+		i -= x;
+		if (i <= 0) {
+			i = 1;
+			xp.put(type, 0);
+		}
+		xpLevel.put(type, i);
 		displayBossBar(type);
 	}
 
@@ -209,12 +260,10 @@ public class XP {
 		}
 
 	}
-
-	public void removeLevel(XPType type, int x) {
-		int i = xpLevel.get(type);
-		i -= x;
-		xpLevel.put(type, i);
-		displayBossBar(type);
+	
+	public int getNextXP(XPType type) {
+		int xpl = xpLevel.get(type);
+		return getXPDifference(xpl + 1, xpl);
 	}
 
 	public static int getXPDifference(int target, int current) {
