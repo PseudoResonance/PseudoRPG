@@ -137,6 +137,23 @@ public class XP {
 			x = 1;
 		}
 		xpLevel.put(type, x);
+		int i = xp.get(type);
+		i += x;
+		int l = xpLevel.get(type);
+		int diff = getXPDifference(l + 1, l);
+		if (i >= diff) {
+			while (i >= diff) {
+				int add = i - diff;
+				xpLevel.put(type, l + 1);
+				xp.put(type, add);
+				i = add;
+				l++;
+				diff = getXPDifference(l + 1, l);
+				if (l % ConfigOptions.fireworkInterval == 0) {
+					fireworks(type);
+				}
+			}
+		}
 		displayBossBar(type);
 	}
 
@@ -198,13 +215,30 @@ public class XP {
 	}
 
 	public void removeLevel(XPType type, int x) {
-		int i = xpLevel.get(type);
-		i -= x;
-		if (i <= 0) {
-			i = 1;
+		int l = xpLevel.get(type);
+		l -= x;
+		if (l <= 0) {
+			l = 1;
 			xp.put(type, 0);
 		}
-		xpLevel.put(type, i);
+		xpLevel.put(type, l);
+		int i = xp.get(type);
+		i -= x;
+		if (i < 0) {
+			while (i < 0) {
+				if ((l - 1) <= 0) {
+					xpLevel.put(type, l);
+					xp.put(type, 0);
+					break;
+				}
+				int diff = getXPDifference(l, l - 1);
+				int remove = diff + i;
+				xpLevel.put(type, l - 1);
+				xp.put(type, remove);
+				i = remove;
+				l--;
+			}
+		}
 		displayBossBar(type);
 	}
 
