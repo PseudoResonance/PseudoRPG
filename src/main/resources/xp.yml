@@ -1,6 +1,8 @@
-version: 2
+version: 3
 breaking:
   stone:
+    mining: 1
+  netherrack:
     mining: 1
   coal_ore:
     mining: 5
@@ -10,6 +12,10 @@ breaking:
     mining: 50
   lapis_ore:
     mining: 40
+  redstone_ore:
+    mining: 30
+  glowing_redstone_ore:
+    mining: 30
   diamond_ore:
     mining: 75
   emerald_ore:
