@@ -1,11 +1,16 @@
 package tk.spongenetwork.RPG;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.boss.BarStyle;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import io.github.wolfleader116.wolfapi.bukkit.Config;
 import io.github.wolfleader116.wolfapi.bukkit.ConfigOption;
@@ -33,7 +38,17 @@ public class ConfigOptions implements ConfigOption {
 	public static boolean updateConfig() {
 		boolean error = false;
 		Config xp = new Config("xp.yml", RPG.plugin);
-		if (xp.getConfig().getInt("version") != 3) {
+		InputStream xpin = RPG.plugin.getClass().getResourceAsStream("/xp.yml"); 
+		BufferedReader xpreader = new BufferedReader(new InputStreamReader(xpin));
+		YamlConfiguration xpc = YamlConfiguration.loadConfiguration(xpreader);
+		int xpcj = xpc.getInt("Version");
+		try {
+			xpreader.close();
+			xpin.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		if (xp.getConfig().getInt("version") != xpcj) {
 			try {
 				String oldFile = "";
 				File conf = new File(RPG.plugin.getDataFolder(), "xp.yml");
@@ -56,7 +71,17 @@ public class ConfigOptions implements ConfigOption {
 				error = true;
 			}
 		}
-		if (RPG.plugin.getConfig().getInt("Version") != 5) {
+		InputStream configin = RPG.plugin.getClass().getResourceAsStream("/config.yml"); 
+		BufferedReader configreader = new BufferedReader(new InputStreamReader(configin));
+		YamlConfiguration configc = YamlConfiguration.loadConfiguration(configreader);
+		int configcj = configc.getInt("Version");
+		try {
+			configreader.close();
+			configin.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		if (RPG.plugin.getConfig().getInt("Version") != configcj) {
 			try {
 				String oldFile = "";
 				File conf = new File(RPG.plugin.getDataFolder(), "config.yml");
