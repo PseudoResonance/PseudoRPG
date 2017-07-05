@@ -41,7 +41,7 @@ public class ConfigOptions implements ConfigOption {
 		InputStream xpin = RPG.plugin.getClass().getResourceAsStream("/xp.yml"); 
 		BufferedReader xpreader = new BufferedReader(new InputStreamReader(xpin));
 		YamlConfiguration xpc = YamlConfiguration.loadConfiguration(xpreader);
-		int xpcj = xpc.getInt("Version");
+		int xpcj = xpc.getInt("version");
 		try {
 			xpreader.close();
 			xpin.close();
