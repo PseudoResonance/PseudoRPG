@@ -20,6 +20,10 @@ public class XPManager {
 		return xp.get(PlayerDataController.getUUID(name));
 	}
 	
+	public static void setPlayerXP(String uuid, XP xpObj) {
+		xp.put(uuid, xpObj);
+	}
+	
 	public static void addPlayerXP(String name) {
 		if (!xp.containsKey(PlayerDataController.getUUID(name))) {
 			xp.put(PlayerDataController.getUUID(name), new XP(PlayerDataController.getUUID(name)));

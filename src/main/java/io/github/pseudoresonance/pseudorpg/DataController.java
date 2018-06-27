@@ -1,15 +1,12 @@
 package io.github.pseudoresonance.pseudorpg;
 
 import java.util.HashMap;
-import java.util.Set;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 
 import io.github.pseudoresonance.pseudoapi.bukkit.Config;
-import io.github.pseudoresonance.pseudoapi.bukkit.data.Backend;
-import io.github.pseudoresonance.pseudoapi.bukkit.data.Data;
-import io.github.pseudoresonance.pseudoapi.bukkit.data.FileBackend;
+import io.github.pseudoresonance.pseudoapi.bukkit.playerdata.PlayerDataController;
 import io.github.pseudoresonance.pseudorpg.xp.XP;
 import io.github.pseudoresonance.pseudorpg.xp.XPManager;
 import io.github.pseudoresonance.pseudorpg.xp.XPType;
@@ -21,37 +18,14 @@ public class DataController {
 	public static HashMap<String, XPYield> breakYield = new HashMap<String, XPYield>();
 	public static HashMap<String, XPYield> smeltYield = new HashMap<String, XPYield>();
 	public static HashMap<EntityType, XPYield> huntYield = new HashMap<EntityType, XPYield>();
-	private static Config xp = new Config("xp.yml", PseudoRPG.plugin);;
-	private static Backend backend;
-	
-	private static Config c;
+	private static Config xp = new Config("xp.yml", PseudoRPG.plugin);
 	
 	public static void updateBackend() {
-		backend = Data.getBackend();
-		if (backend instanceof FileBackend) {
-			FileBackend fb = (FileBackend) backend;
-			c = new Config(fb.getFolder(), "rpg", PseudoRPG.plugin);
-		}
 		loadXP();
 	}
 	
 	public static void loadXP() {
 		xp.reload();
-		HashMap<String, XP> xp = new HashMap<String, XP>();
-		if (backend instanceof FileBackend) {
-			ConfigurationSection cs = c.getConfig().getConfigurationSection("RPG.XP");
-			if (cs != null) {
-				Set<String> list = cs.getKeys(false);
-				for (String s : list) {
-					XP ret = new XP(s);
-					for (XPType type : XPType.values()) {
-						ret.setInitialXP(type, c.getConfig().getInt("RPG.XP." + s + "." + type.getID()));
-					}
-					xp.put(s, ret);
-				}
-			}
-		}
-		XPManager.setXP(xp);
 		ConfigurationSection se1 = DataController.xp.getConfig().getConfigurationSection("breaking");
 		if (se1 != null) {
 			for (String key : se1.getKeys(false)) {
@@ -107,15 +81,16 @@ public class DataController {
 		}
 	}
 	
-	public static boolean updateXP() {
+	public static boolean saveXP() {
 		HashMap<String, XP> xp = XPManager.getXP();
-		for (String s : xp.keySet()) {
-			XP xpobj = xp.get(s);
+		for (String uuid : xp.keySet()) {
+			XP xpobj = xp.get(uuid);
+			HashMap<String, Object> data = new HashMap<String, Object>();
 			for (XPType type : XPType.values()) {
-				c.getConfig().set("RPG.XP." + s + "." + type.getID(), xpobj.getTotalXP(type));
+				data.put("xp" + type.getName().toLowerCase(), xpobj.getTotalXP(type));
 			}
+			PlayerDataController.setPlayerSettings(uuid, data);
 		}
-		c.save();
 		return true;
 	}
 

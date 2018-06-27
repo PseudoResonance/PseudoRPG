@@ -33,6 +33,8 @@ public class XP {
 		this.xp = xp;
 		this.xpLevel = xpLevel;
 		for (XPType type : XPType.values()) {
+			if (xpLevel.get(type) < 1)
+				xpLevel.put(type, 1);
 			BossBar bar = Bukkit.getServer().createBossBar(type.getName(), type.getBarColor(), ConfigOptions.bossBarStyle);
 			bar.setProgress(0.0);
 			bb.put(type, bar);
@@ -43,7 +45,7 @@ public class XP {
 		this.uuid = uuid;
 		for (XPType type : XPType.values()) {
 			xp.put(type, 0);
-			xpLevel.put(type, 0);
+			xpLevel.put(type, 1);
 			BossBar bar = Bukkit.getServer().createBossBar(type.getName(), type.getBarColor(), ConfigOptions.bossBarStyle);
 			bar.setProgress(0.0);
 			bb.put(type, bar);

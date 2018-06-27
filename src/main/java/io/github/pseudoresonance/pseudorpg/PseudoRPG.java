@@ -8,6 +8,8 @@ import io.github.pseudoresonance.pseudoapi.bukkit.Message;
 import io.github.pseudoresonance.pseudoapi.bukkit.PseudoAPI;
 import io.github.pseudoresonance.pseudoapi.bukkit.PseudoPlugin;
 import io.github.pseudoresonance.pseudoapi.bukkit.PseudoUpdater;
+import io.github.pseudoresonance.pseudoapi.bukkit.playerdata.Column;
+import io.github.pseudoresonance.pseudoapi.bukkit.playerdata.PlayerDataController;
 import io.github.pseudoresonance.pseudorpg.commands.GiveXpSC;
 import io.github.pseudoresonance.pseudorpg.commands.ReloadSC;
 import io.github.pseudoresonance.pseudorpg.commands.ResetSC;
@@ -25,6 +27,7 @@ import io.github.pseudoresonance.pseudorpg.events.BlockBreakEH;
 import io.github.pseudoresonance.pseudorpg.events.EntityDamageEH;
 import io.github.pseudoresonance.pseudorpg.events.EntityDeathEH;
 import io.github.pseudoresonance.pseudorpg.events.PlayerJoinEH;
+import io.github.pseudoresonance.pseudorpg.listeners.PlayerJoinLeaveL;
 
 public class PseudoRPG extends PseudoPlugin {
 
@@ -53,6 +56,13 @@ public class PseudoRPG extends PseudoPlugin {
 		Config xp = new Config("xp.yml", this);
 		xp.saveDefaultConfig();
 		plugin = this;
+		PlayerDataController.addColumn(new Column("xpwood", "INT(8)", "0"));
+		PlayerDataController.addColumn(new Column("xpmining", "INT(8)", "0"));
+		PlayerDataController.addColumn(new Column("xpfishing", "INT(8)", "0"));
+		PlayerDataController.addColumn(new Column("xphunting", "INT(8)", "0"));
+		PlayerDataController.addColumn(new Column("xpsmelting", "INT(8)", "0"));
+		PlayerDataController.addColumn(new Column("xpcrafting", "INT(8)", "0"));
+		PlayerDataController.addColumn(new Column("xpblacksmith", "INT(8)", "0"));
 		configOptions = new ConfigOptions();
 		ConfigOptions.updateConfig();
 		configOptions.reloadConfig();
@@ -74,7 +84,7 @@ public class PseudoRPG extends PseudoPlugin {
 
 	@Override
 	public void onDisable() {
-		DataController.updateXP();
+		DataController.saveXP();
 		super.onDisable();
 	}
 	
@@ -129,6 +139,7 @@ public class PseudoRPG extends PseudoPlugin {
 		getServer().getPluginManager().registerEvents(new PlayerJoinEH(), this);
 		getServer().getPluginManager().registerEvents(new EntityDeathEH(), this);
 		getServer().getPluginManager().registerEvents(new EntityDamageEH(), this);
+		getServer().getPluginManager().registerEvents(new PlayerJoinLeaveL(), this);
 	}
 
 }

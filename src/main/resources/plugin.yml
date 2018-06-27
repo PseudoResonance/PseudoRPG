@@ -1,7 +1,7 @@
 name: PseudoRPG
 author: PseudoResonance
 main: io.github.pseudoresonance.pseudorpg.PseudoRPG
-version: 0.3
+version: 0.3.1
 description: RPG Plugin
 depend: [PseudoAPI]
 commands:
