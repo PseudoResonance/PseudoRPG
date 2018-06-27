@@ -1,12 +1,13 @@
-name: RPG
-author: WolfLeader116 and Newoace
-main: tk.spongenetwork.RPG.RPG
-version: 0.1.21
-description: SpongeNetwork RPG Plugin
-depend: [WolfAPI]
+name: PseudoRPG
+author: PseudoResonance
+main: io.github.pseudoresonance.pseudorpg.PseudoRPG
+version: 0.3
+description: RPG Plugin
+depend: [PseudoAPI]
 commands:
-  rpg:
-    description: RPG Menu
+  pseudorpg:
+    description: PseudoRPG Menu
+    aliases: [rpg]
   rpgxp:
     description: Displays XP Stats
   xpskill:
@@ -16,7 +17,7 @@ commands:
   takexp:
     description: Takes XP
   setxp:
-    description: Setss XP
+    description: Sets XP
 permissions:
   rpg.xp:
     description: Allows the player to view xp stats
