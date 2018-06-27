@@ -7,6 +7,7 @@ import io.github.pseudoresonance.pseudoapi.bukkit.MainCommand;
 import io.github.pseudoresonance.pseudoapi.bukkit.Message;
 import io.github.pseudoresonance.pseudoapi.bukkit.PseudoAPI;
 import io.github.pseudoresonance.pseudoapi.bukkit.PseudoPlugin;
+import io.github.pseudoresonance.pseudoapi.bukkit.PseudoUpdater;
 import io.github.pseudoresonance.pseudorpg.commands.GiveXpSC;
 import io.github.pseudoresonance.pseudorpg.commands.ReloadSC;
 import io.github.pseudoresonance.pseudorpg.commands.ResetSC;
@@ -40,6 +41,10 @@ public class PseudoRPG extends PseudoPlugin {
 	private static SetXpSC setXPSubCommand;
 	
 	private static ConfigOptions configOptions;
+	
+	public void onLoad() {
+		PseudoUpdater.registerPlugin(this);
+	}
 
 	@Override
 	public void onEnable() {
@@ -50,6 +55,7 @@ public class PseudoRPG extends PseudoPlugin {
 		plugin = this;
 		configOptions = new ConfigOptions();
 		ConfigOptions.updateConfig();
+		configOptions.reloadConfig();
 		message = new Message(this);
 		mainCommand = new MainCommand(plugin);
 		helpSubCommand = new HelpSC(plugin);
@@ -63,7 +69,6 @@ public class PseudoRPG extends PseudoPlugin {
 		initializeSubCommands();
 		initializeListeners();
 		setCommandDescriptions();
-		configOptions.reloadConfig();
 		PseudoAPI.registerConfig(configOptions);
 	}
 
