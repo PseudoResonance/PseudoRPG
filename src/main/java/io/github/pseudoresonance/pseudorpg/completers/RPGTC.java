@@ -3,11 +3,12 @@ package io.github.pseudoresonance.pseudorpg.completers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
 
-import io.github.pseudoresonance.pseudoapi.bukkit.playerdata.PlayerDataController;
 import io.github.pseudoresonance.pseudorpg.xp.XPType;
 
 public class RPGTC implements TabCompleter {
@@ -16,24 +17,24 @@ public class RPGTC implements TabCompleter {
 		List<String> possible = new ArrayList<String>();
 		if (args.length == 1) {
 			possible.add("help");
-			if (sender.hasPermission("rpg.reload")) {
+			if (sender.hasPermission("pseudorpg.reload")) {
 				possible.add("reload");
 			}
-			if (sender.hasPermission("rpg.reset")) {
+			if (sender.hasPermission("pseudorpg.reset")) {
 				possible.add("reset");
 			}
-			if (sender.hasPermission("rpg.xp")) {
+			if (sender.hasPermission("pseudorpg.reloadlocalization")) {
+				possible.add("reloadlocalization");
+			}
+			if (sender.hasPermission("pseudorpg.resetlocalization")) {
+				possible.add("resetlocalization");
+			}
+			if (sender.hasPermission("pseudorpg.xp")) {
 				possible.add("xp");
 				possible.add("xpskill");
 			}
-			if (sender.hasPermission("rpg.givexp")) {
-				possible.add("givexp");
-			}
-			if (sender.hasPermission("rpg.takexp")) {
-				possible.add("takexp");
-			}
-			if (sender.hasPermission("rpg.setxp")) {
-				possible.add("setxp");
+			if (sender.hasPermission("pseudorpg.skillxp")) {
+				possible.add("skillxp");
 			}
 			if (args[0].equalsIgnoreCase("")) {
 				return possible;
@@ -46,149 +47,106 @@ public class RPGTC implements TabCompleter {
 				}
 				return checked;
 			}
-		} else if (args.length == 2) {
-			if (args[0].equalsIgnoreCase("xp")) {
-				for (String name : PlayerDataController.getNames()) {
-					possible.add(name);
-				}
-				if (args[1].equalsIgnoreCase("")) {
-					return possible;
-				} else {
-					List<String> checked = new ArrayList<String>();
-					for (String check : possible) {
-						if (check.toLowerCase().startsWith(args[1].toLowerCase())) {
-							checked.add(check);
+		} else if (args.length >= 1) {
+			if (args[0].equalsIgnoreCase("skillxp")) {
+				if (!(sender instanceof Player) || sender.hasPermission("pseudorpg.skillxp")) {
+					if (args.length == 2) {
+						possible.add("add");
+						possible.add("set");
+						if (args[1].equalsIgnoreCase("")) {
+							return possible;
+						} else {
+							List<String> checked = new ArrayList<String>();
+							for (String check : possible) {
+								if (check.toLowerCase().startsWith(args[1].toLowerCase())) {
+									checked.add(check);
+								}
+							}
+							return checked;
+						}
+					} else if (args.length == 3) {
+						for (XPType type : XPType.values())
+							possible.add(type.toString().toLowerCase());
+						if (args[2].equalsIgnoreCase("")) {
+							return possible;
+						} else {
+							List<String> checked = new ArrayList<String>();
+							for (String check : possible) {
+								if (check.toLowerCase().startsWith(args[2].toLowerCase())) {
+									checked.add(check);
+								}
+							}
+							return checked;
+						}
+					} else if (args.length == 5) {
+						for (Player p : Bukkit.getOnlinePlayers())
+							possible.add(p.getName().toLowerCase());
+						if (args[4].equalsIgnoreCase("")) {
+							return possible;
+						} else {
+							List<String> checked = new ArrayList<String>();
+							for (String check : possible) {
+								if (check.toLowerCase().startsWith(args[4].toLowerCase())) {
+									checked.add(check);
+								}
+							}
+							return checked;
 						}
 					}
-					return checked;
 				}
 			} else if (args[0].equalsIgnoreCase("xpskill")) {
-				for (XPType xpt : XPType.values()) {
-					possible.add(xpt.getName());
-				}
-				if (args[1].equalsIgnoreCase("")) {
-					return possible;
-				} else {
-					List<String> checked = new ArrayList<String>();
-					for (String check : possible) {
-						if (check.toLowerCase().startsWith(args[1].toLowerCase())) {
-							checked.add(check);
+				if (!(sender instanceof Player) || sender.hasPermission("pseudorpg.xp")) {
+					if (args.length == 2) {
+						for (XPType type : XPType.values())
+							possible.add(type.toString().toLowerCase());
+						if (args[1].equalsIgnoreCase("")) {
+							return possible;
+						} else {
+							List<String> checked = new ArrayList<String>();
+							for (String check : possible) {
+								if (check.toLowerCase().startsWith(args[1].toLowerCase())) {
+									checked.add(check);
+								}
+							}
+							return checked;
+						}
+					} else if (args.length == 3 && sender.hasPermission("pseudorpg.xp.others")) {
+						for (Player p : Bukkit.getOnlinePlayers())
+							possible.add(p.getName().toLowerCase());
+						if (args[2].equalsIgnoreCase("")) {
+							return possible;
+						} else {
+							List<String> checked = new ArrayList<String>();
+							for (String check : possible) {
+								if (check.toLowerCase().startsWith(args[2].toLowerCase())) {
+									checked.add(check);
+								}
+							}
+							return checked;
 						}
 					}
-					return checked;
 				}
-			} else if (args[0].equalsIgnoreCase("givexp")) {
-				for (XPType xpt : XPType.values()) {
-					possible.add(xpt.getName());
-				}
-				if (args[1].equalsIgnoreCase("")) {
-					return possible;
-				} else {
-					List<String> checked = new ArrayList<String>();
-					for (String check : possible) {
-						if (check.toLowerCase().startsWith(args[1].toLowerCase())) {
-							checked.add(check);
+			} else if (args[0].equalsIgnoreCase("xp")) {
+				if (!(sender instanceof Player) || sender.hasPermission("pseudorpg.xp")) {
+					if (args.length == 2 && sender.hasPermission("pseudorpg.xp.others")) {
+						for (Player p : Bukkit.getOnlinePlayers())
+							possible.add(p.getName().toLowerCase());
+						if (args[1].equalsIgnoreCase("")) {
+							return possible;
+						} else {
+							List<String> checked = new ArrayList<String>();
+							for (String check : possible) {
+								if (check.toLowerCase().startsWith(args[1].toLowerCase())) {
+									checked.add(check);
+								}
+							}
+							return checked;
 						}
 					}
-					return checked;
-				}
-			} else if (args[0].equalsIgnoreCase("takexp")) {
-				for (XPType xpt : XPType.values()) {
-					possible.add(xpt.getName());
-				}
-				if (args[1].equalsIgnoreCase("")) {
-					return possible;
-				} else {
-					List<String> checked = new ArrayList<String>();
-					for (String check : possible) {
-						if (check.toLowerCase().startsWith(args[1].toLowerCase())) {
-							checked.add(check);
-						}
-					}
-					return checked;
-				}
-			} else if (args[0].equalsIgnoreCase("setxp")) {
-				for (XPType xpt : XPType.values()) {
-					possible.add(xpt.getName());
-				}
-				if (args[1].equalsIgnoreCase("")) {
-					return possible;
-				} else {
-					List<String> checked = new ArrayList<String>();
-					for (String check : possible) {
-						if (check.toLowerCase().startsWith(args[1].toLowerCase())) {
-							checked.add(check);
-						}
-					}
-					return checked;
-				}
-			}
-		} else if (args.length == 3) {
-			if (args[0].equalsIgnoreCase("xpskill")) {
-				for (String name : PlayerDataController.getNames()) {
-					possible.add(name);
-				}
-				if (args[2].equalsIgnoreCase("")) {
-					return possible;
-				} else {
-					List<String> checked = new ArrayList<String>();
-					for (String check : possible) {
-						if (check.toLowerCase().startsWith(args[2].toLowerCase())) {
-							checked.add(check);
-						}
-					}
-					return checked;
-				}
-			}
-		} else if (args.length == 4) {
-			if (args[0].equalsIgnoreCase("givexp")) {
-				for (String name : PlayerDataController.getNames()) {
-					possible.add(name);
-				}
-				if (args[3].equalsIgnoreCase("")) {
-					return possible;
-				} else {
-					List<String> checked = new ArrayList<String>();
-					for (String check : possible) {
-						if (check.toLowerCase().startsWith(args[3].toLowerCase())) {
-							checked.add(check);
-						}
-					}
-					return checked;
-				}
-			} else if (args[0].equalsIgnoreCase("takexp")) {
-				for (String name : PlayerDataController.getNames()) {
-					possible.add(name);
-				}
-				if (args[3].equalsIgnoreCase("")) {
-					return possible;
-				} else {
-					List<String> checked = new ArrayList<String>();
-					for (String check : possible) {
-						if (check.toLowerCase().startsWith(args[3].toLowerCase())) {
-							checked.add(check);
-						}
-					}
-					return checked;
-				}
-			} else if (args[0].equalsIgnoreCase("setxp")) {
-				for (String name : PlayerDataController.getNames()) {
-					possible.add(name);
-				}
-				if (args[3].equalsIgnoreCase("")) {
-					return possible;
-				} else {
-					List<String> checked = new ArrayList<String>();
-					for (String check : possible) {
-						if (check.toLowerCase().startsWith(args[3].toLowerCase())) {
-							checked.add(check);
-						}
-					}
-					return checked;
 				}
 			}
 		}
-		return null;
+		return possible;
 	}
 
 }

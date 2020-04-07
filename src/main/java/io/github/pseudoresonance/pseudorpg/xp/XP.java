@@ -13,14 +13,15 @@ import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 
+import io.github.pseudoresonance.pseudoapi.bukkit.language.LanguageManager;
 import io.github.pseudoresonance.pseudoapi.bukkit.playerdata.PlayerDataController;
-import io.github.pseudoresonance.pseudorpg.ConfigOptions;
+import io.github.pseudoresonance.pseudorpg.Config;
 import io.github.pseudoresonance.pseudorpg.PseudoRPG;
 import io.github.pseudoresonance.pseudorpg.schedulers.BossBarDelay;
 
 public class XP {
 
-	private String uuid = "";
+	private final String uuid;
 	private HashMap<XPType, Integer> xp = new HashMap<XPType, Integer>();
 	private HashMap<XPType, Integer> xpLevel = new HashMap<XPType, Integer>();
 	private HashMap<XPType, BossBar> bb = new HashMap<XPType, BossBar>();
@@ -28,25 +29,25 @@ public class XP {
 	
 	private Random rand = new Random();
 
-	public XP(String uuid, HashMap<XPType, Integer> xp, HashMap<XPType, Integer> xpLevel) {
-		this.uuid = uuid;
+	public XP(Player p, HashMap<XPType, Integer> xp, HashMap<XPType, Integer> xpLevel) {
+		this.uuid = p.getUniqueId().toString();
 		this.xp = xp;
 		this.xpLevel = xpLevel;
 		for (XPType type : XPType.values()) {
 			if (xpLevel.get(type) < 1)
 				xpLevel.put(type, 1);
-			BossBar bar = Bukkit.getServer().createBossBar(type.getName(), type.getBarColor(), ConfigOptions.bossBarStyle);
+			BossBar bar = Bukkit.getServer().createBossBar(LanguageManager.getLanguage(p).getMessage("pseudorpg." + type.toString().toLowerCase() + "_name"), type.getBarColor(), Config.bossBarStyle);
 			bar.setProgress(0.0);
 			bb.put(type, bar);
 		}
 	}
 
-	public XP(String uuid) {
-		this.uuid = uuid;
+	public XP(Player p) {
+		this.uuid = p.getUniqueId().toString();
 		for (XPType type : XPType.values()) {
 			xp.put(type, 0);
 			xpLevel.put(type, 1);
-			BossBar bar = Bukkit.getServer().createBossBar(type.getName(), type.getBarColor(), ConfigOptions.bossBarStyle);
+			BossBar bar = Bukkit.getServer().createBossBar(LanguageManager.getLanguage(p).getMessage("pseudorpg." + type.toString().toLowerCase() + "_name"), type.getBarColor(), Config.bossBarStyle);
 			bar.setProgress(0.0);
 			bb.put(type, bar);
 		}
@@ -102,7 +103,7 @@ public class XP {
 					x = add;
 					l++;
 					diff = getXPDifference(l + 1, l);
-					if (l % ConfigOptions.fireworkInterval == 0) {
+					if (l % Config.fireworkInterval == 0) {
 						fireworks(type);
 					}
 				}
@@ -168,7 +169,7 @@ public class XP {
 				i = add;
 				l++;
 				diff = getXPDifference(l + 1, l);
-				if (l % ConfigOptions.fireworkInterval == 0) {
+				if (l % Config.fireworkInterval == 0) {
 					fireworks(type);
 				}
 			}
@@ -183,7 +184,7 @@ public class XP {
 		i += x;
 		xpLevel.put(type, i);
 		displayBossBar(type);
-		if (i % ConfigOptions.fireworkInterval == 0) {
+		if (i % Config.fireworkInterval == 0) {
 			fireworks(type);
 		}
 	}
@@ -250,14 +251,14 @@ public class XP {
 		} else if (percent > 1.0) {
 			percent = 1.0;
 		}
-		if (ConfigOptions.bossbar) {
+		if (Config.bossBar) {
 			Player p = Bukkit.getPlayer(PlayerDataController.getName(uuid));
 			if (p != null) {
 				BossBar boss = bb.get(type);
 				boss.addPlayer(p);
 				boss.setProgress(percent);
-				String format = ConfigOptions.bossBarMessage;
-				format = format.replace("%SKILL%", type.getName());
+				String format = Config.bossBarMessage;
+				format = format.replace("%SKILL%", LanguageManager.getLanguage(p).getMessage("pseudorpg." + type.toString().toLowerCase() + "_name"));
 				format = format.replace("%LEVEL%", String.valueOf(l));
 				format = format.replace("%XP%", String.valueOf(i));
 				format = format.replace("%LEVELXP%", String.valueOf(total));
@@ -271,7 +272,7 @@ public class XP {
 				}
 				BossBarDelay delay = new BossBarDelay(boss);
 				bbd.put(type, delay);
-				delay.runTaskLater(PseudoRPG.plugin, ConfigOptions.bossBarDelay);
+				delay.runTaskLater(PseudoRPG.plugin, Config.bossBarDelay);
 			}
 		}
 	}
@@ -279,7 +280,7 @@ public class XP {
 	public void fireworks(XPType type) {
 		Player p = Bukkit.getServer().getPlayer(PlayerDataController.getName(uuid));
 		if (p != null) {
-			for (int x = 0; x < ConfigOptions.fireworkCount; x++) {
+			for (int x = 0; x < Config.fireworkCount; x++) {
 				Firework fw = (Firework) p.getWorld().spawnEntity(p.getLocation(), EntityType.FIREWORK);
 				FireworkMeta fwm = fw.getFireworkMeta();
 				Color c1 = Color.fromRGB(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255));

@@ -15,7 +15,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.projectiles.ProjectileSource;
 
-import io.github.pseudoresonance.pseudorpg.ConfigOptions;
+import io.github.pseudoresonance.pseudorpg.Config;
 import io.github.pseudoresonance.pseudorpg.DataController;
 import io.github.pseudoresonance.pseudorpg.xp.XP;
 import io.github.pseudoresonance.pseudorpg.xp.XPManager;
@@ -36,15 +36,15 @@ public class EntityDamageEH implements Listener {
 			LivingEntity le = (LivingEntity) entity;
 			if (damager instanceof Player) {
 				Player player = (Player) damager;
-				XP xp = XPManager.getPlayerXP(player.getName());
+				XP xp = XPManager.getPlayerXP(player);
 				GameMode gm = player.getGameMode();
 				if (gm == GameMode.SURVIVAL || gm == GameMode.ADVENTURE) {
 					if (dc == DamageCause.ENTITY_ATTACK) {
-						double modifier = ConfigOptions.criticalMultiplier * criticalCalculator(xp.getLevel(XPType.HUNTING));
+						double modifier = Config.criticalMultiplier * criticalCalculator(xp.getLevel(XPType.HUNTING));
 						e.setDamage(e.getDamage() * modifier);
 						calculateXP(entity.getType(), player, e.getDamage(), le.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
 					} else if (dc == DamageCause.ENTITY_SWEEP_ATTACK) {
-						double modifier = ConfigOptions.sweepingCriticalMultiplier * sweepingCriticalCalculator(xp.getLevel(XPType.HUNTING));
+						double modifier = Config.sweepingCriticalMultiplier * sweepingCriticalCalculator(xp.getLevel(XPType.HUNTING));
 						e.setDamage(e.getDamage() * modifier);
 						calculateXP(entity.getType(), player, e.getDamage(), le.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
 					}
@@ -54,10 +54,10 @@ public class EntityDamageEH implements Listener {
 				ProjectileSource shooter = arrow.getShooter();
 				if (shooter instanceof Player) {
 					Player player = (Player) shooter;
-					XP xp = XPManager.getPlayerXP(player.getName());
+					XP xp = XPManager.getPlayerXP(player);
 					GameMode gm = player.getGameMode();
 					if (gm == GameMode.SURVIVAL || gm == GameMode.ADVENTURE) {
-						double modifier = ConfigOptions.criticalMultiplier * criticalCalculator(xp.getLevel(XPType.HUNTING));
+						double modifier = Config.criticalMultiplier * criticalCalculator(xp.getLevel(XPType.HUNTING));
 						e.setDamage(e.getDamage() * modifier);
 						calculateXP(entity.getType(), player, e.getDamage(), le.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
 					}
@@ -69,28 +69,26 @@ public class EntityDamageEH implements Listener {
 	private void calculateXP(EntityType et, Player p, double damage, double mobHealth) {
 		if (DataController.huntYield.containsKey(et)) {
 			XPYield xpy = DataController.huntYield.get(et);
-			XP xp = XPManager.getPlayerXP(p.getName());
+			XP xp = XPManager.getPlayerXP(p);
 			for (XPTypeYield xpty : xpy.getYield()) {
-				if (p.hasPermission("rpg.xp." + xpty.getType().getID())) {
-					int i = xpty.getAmount();
-					i *= ConfigOptions.damageModifier;
-					double percent = damage / mobHealth;
-					if (percent > 1.0) {
-						percent = 1.0;
-					}
-					int xpFinal = (int) Math.floor(i * percent);
-					if (i > 0) {
-						xp.addXP(xpty.getType(), xpFinal);
-					} else if (i < 0) {
-						xp.removeXP(xpty.getType(), xpFinal);
-					}
+				int i = xpty.getAmount();
+				i *= Config.damageModifier;
+				double percent = damage / mobHealth;
+				if (percent > 1.0) {
+					percent = 1.0;
+				}
+				int xpFinal = (int) Math.floor(i * percent);
+				if (i > 0) {
+					xp.addXP(xpty.getType(), xpFinal);
+				} else if (i < 0) {
+					xp.removeXP(xpty.getType(), xpFinal);
 				}
 			}
 		}
 	}
 
 	private int criticalCalculator(int level) {
-		double chance = ConfigOptions.criticalChance * (double) level;
+		double chance = Config.criticalChance * (double) level;
 		int extra = (int) Math.floor(chance / 100);
 		double difference = chance - extra;
 		int rand = random.nextInt(100);
@@ -102,7 +100,7 @@ public class EntityDamageEH implements Listener {
 	}
 
 	private int sweepingCriticalCalculator(int level) {
-		double chance = ConfigOptions.sweepingCriticalChance * (double) level;
+		double chance = Config.sweepingCriticalChance * (double) level;
 		int extra = (int) Math.floor(chance / 100);
 		double difference = chance - extra;
 		int rand = random.nextInt(100);

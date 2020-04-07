@@ -1,6 +1,12 @@
-version: 3
+version: 1
 breaking:
   stone:
+    mining: 1
+  andesite:
+    mining: 1
+  diorite:
+    mining: 1
+  granite:
     mining: 1
   netherrack:
     mining: 1
@@ -14,19 +20,15 @@ breaking:
     mining: 40
   redstone_ore:
     mining: 30
-  glowing_redstone_ore:
-    mining: 30
   diamond_ore:
     mining: 75
   emerald_ore:
     mining: 75
-  quartz_ore:
+  nether_quartz_ore:
     mining: 5
   obsidian:
     mining: 2
-  log:
-    wood: 5
-  log_2:
+  "#logs":
     wood: 5
 smelting:
   iron_ore:

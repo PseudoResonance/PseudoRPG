@@ -4,30 +4,18 @@ import org.bukkit.boss.BarColor;
 
 public enum XPType {
 	
-	WOOD("wood", "Wood", BarColor.GREEN),
-	MINING("mining", "Mining", BarColor.WHITE),
-	FISHING("fishing", "Fishing", BarColor.BLUE),
-	HUNTING("hunting", "Hunting", BarColor.PURPLE),
-	SMELTING("smelting", "Smelting", BarColor.PINK),
-	CRAFTING("crafting", "Crafting", BarColor.YELLOW),
-	BLACKSMITH("blacksmith", "Blacksmith", BarColor.RED);
+	WOOD(BarColor.GREEN),
+	MINING(BarColor.WHITE),
+	FISHING(BarColor.BLUE),
+	HUNTING(BarColor.PURPLE),
+	SMELTING(BarColor.PINK),
+	CRAFTING(BarColor.YELLOW),
+	BLACKSMITH(BarColor.RED);
 	
-	String id;
-	String name;
 	BarColor barcolor;
 	
-	XPType(String id, String name, BarColor barcolor) {
-		this.id = id;
-		this.name = name;
+	XPType(BarColor barcolor) {
 		this.barcolor = barcolor;
-	}
-	
-	public String getID() {
-		return this.id;
-	}
-	
-	public String getName() {
-		return this.name;
 	}
 	
 	public BarColor getBarColor() {

@@ -2,7 +2,7 @@ package io.github.pseudoresonance.pseudorpg.xp;
 
 import java.util.HashMap;
 
-import io.github.pseudoresonance.pseudoapi.bukkit.playerdata.PlayerDataController;
+import org.bukkit.entity.Player;
 
 public class XPManager {
 	
@@ -16,24 +16,29 @@ public class XPManager {
 		return XPManager.xp;
 	}
 	
-	public static XP getPlayerXP(String name) {
-		return xp.get(PlayerDataController.getUUID(name));
+	public static XP getPlayerXP(Player p) {
+		return xp.get(p.getUniqueId().toString());
 	}
 	
-	public static void setPlayerXP(String uuid, XP xpObj) {
-		xp.put(uuid, xpObj);
+	public static XP setPlayerXP(Player p, XP xpObj) {
+		xp.put(p.getUniqueId().toString(), xpObj);
+		return xpObj;
 	}
 	
-	public static void addPlayerXP(String name) {
-		if (!xp.containsKey(PlayerDataController.getUUID(name))) {
-			xp.put(PlayerDataController.getUUID(name), new XP(PlayerDataController.getUUID(name)));
+	public static XP addPlayerXP(Player p) {
+		XP xpObj = xp.get(p.getUniqueId().toString());
+		if (xpObj == null) {
+			xpObj = new XP(p);
+			xp.put(p.getUniqueId().toString(), xpObj);
 		}
+		return xpObj;
 	}
 	
-	public static void removePlayerXP(String name) {
-		if (xp.containsKey(PlayerDataController.getUUID(name))) {
-			xp.remove(PlayerDataController.getUUID(name));
+	public static XP removePlayerXP(Player p) {
+		if (xp.containsKey(p.getUniqueId().toString())) {
+			return xp.remove(p.getUniqueId().toString());
 		}
+		return null;
 	}
 
 }

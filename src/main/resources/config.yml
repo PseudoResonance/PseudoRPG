@@ -3,16 +3,7 @@
 ##################
 
 #DO NOT CHANGE THIS LINE! YOUR CONFIG WILL BE RESET UPON LOADING IF THIS LINE IS EDITED!
-Version: 5
-
-###########
-#Inventory#
-###########
-
-Inventory:
-  
-  #Inventory Title Prefix (REQUIRED)
-  InventoryPrefix: yellow,bold
+Version: 1
 
 
 ############
@@ -20,6 +11,9 @@ Inventory:
 ############
 
 Experience:
+  
+  #Max XP Level
+  MaxXPLevel: 100
   
   #Interval of Levels for Fireworks
   #Set to 0 to disable
@@ -65,9 +59,8 @@ Mining:
     - diamond_ore
     - emerald_ore
     - redstone_ore
-    - glowing_redstone_ore
     - lapis_ore
-    - quartz_ore
+    - nether_quartz_ore
 
 
 ##########

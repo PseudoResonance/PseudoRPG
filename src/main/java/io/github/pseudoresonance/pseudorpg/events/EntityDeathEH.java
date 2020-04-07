@@ -26,15 +26,13 @@ public class EntityDeathEH implements Listener {
 				EntityType et = ent.getType();
 				if (DataController.huntYield.containsKey(et)) {
 					XPYield xpy = DataController.huntYield.get(et);
-					XP xp = XPManager.getPlayerXP(kill.getName());
+					XP xp = XPManager.getPlayerXP(kill);
 					for (XPTypeYield xpty : xpy.getYield()) {
-						if (kill.hasPermission("rpg.xp." + xpty.getType().getID())) {
-							int i = xpty.getAmount();
-							if (i > 0) {
-								xp.addXP(xpty.getType(), i);
-							} else if (i < 0) {
-								xp.removeXP(xpty.getType(), i);
-							}
+						int i = xpty.getAmount();
+						if (i > 0) {
+							xp.addXP(xpty.getType(), i);
+						} else if (i < 0) {
+							xp.removeXP(xpty.getType(), i);
 						}
 					}
 				}

@@ -11,7 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.pseudoresonance.pseudorpg.ConfigOptions;
+import io.github.pseudoresonance.pseudorpg.Config;
 import io.github.pseudoresonance.pseudorpg.DataController;
 import io.github.pseudoresonance.pseudorpg.xp.XP;
 import io.github.pseudoresonance.pseudorpg.xp.XPManager;
@@ -30,30 +30,19 @@ public class BlockBreakEH implements Listener {
 			if (e.isDropItems()) {
 				Block b = e.getBlock();
 				Material m = b.getType();
-				@SuppressWarnings("deprecation")
-				byte id = b.getData();
-				XPYield xpy = null;
-				String primary = m.toString().toLowerCase();
-				String string = m.toString().toLowerCase() + "," + String.valueOf(id);
-				if (DataController.breakYield.containsKey(string)) {
-					xpy = DataController.breakYield.get(string);
-				} else if (DataController.breakYield.containsKey(primary)) {
-					xpy = DataController.breakYield.get(primary);
-				}
-				XP xp = XPManager.getPlayerXP(e.getPlayer().getName());
+				XPYield xpy = DataController.breakYield.get(m);
+				XP xp = XPManager.getPlayerXP(e.getPlayer());
 				if (xpy != null) {
 					for (XPTypeYield xpty : xpy.getYield()) {
-						if (e.getPlayer().hasPermission("rpg.xp." + xpty.getType().getID())) {
-							int i = xpty.getAmount();
-							if (i > 0) {
-								xp.addXP(xpty.getType(), i);
-							} else if (i < 0) {
-								xp.removeXP(xpty.getType(), i);
-							}
+						int i = xpty.getAmount();
+						if (i > 0) {
+							xp.addXP(xpty.getType(), i);
+						} else if (i < 0) {
+							xp.removeXP(xpty.getType(), i);
 						}
 					}
 				}
-				if (ConfigOptions.extraOre.contains(m)) {
+				if (Config.extraOre.contains(m)) {
 					Collection<ItemStack> drops = b.getDrops();
 					for (ItemStack item : drops) {
 						int drop = extraOreCalculator(xp.getLevel(XPType.MINING));
@@ -66,7 +55,7 @@ public class BlockBreakEH implements Listener {
 	}
 
 	private int extraOreCalculator(int level) {
-		double chance = ConfigOptions.miningExtraOreChance * (double) level;
+		double chance = Config.miningExtraOreChance * (double) level;
 		int extra = (int) Math.floor(chance / 100);
 		double difference = chance - extra;
 		int rand = random.nextInt(100);

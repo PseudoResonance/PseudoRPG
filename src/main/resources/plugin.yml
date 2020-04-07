@@ -1,58 +1,57 @@
-name: PseudoRPG
+name: ${project.artifactId}
 author: PseudoResonance
 main: io.github.pseudoresonance.pseudorpg.PseudoRPG
-version: 0.3.1
+version: ${revision}
 description: RPG Plugin
+api-version: 1.13
 depend: [PseudoAPI]
+softdepend: [Vault]
 commands:
   pseudorpg:
     description: PseudoRPG Menu
     aliases: [rpg]
   rpgxp:
     description: Displays XP Stats
-  xpskill:
+    permission: pseudoplayers.xp
+  rpgxpskill:
     description: Displays Skill XP Stats
-  givexp:
-    description: Gives XP
-  takexp:
-    description: Takes XP
-  setxp:
-    description: Sets XP
+    permission: pseudoplayers.xp
+  skillxp:
+    description: Modifies skill xp
+    permission: pseudoplayers.skillxp
 permissions:
-  rpg.xp:
+  pseudorpg.xp:
     description: Allows the player to view xp stats
     default: true
-    children:
-      rpg.xp.skill.*: true
-  rpg.xp.other:
+  pseudorpg.xp.others:
     description: Allows the player to view xp stats for other players
     default: op
     children:
-      rpg.xp: true
-      rpg.xp.other.*: true
-  rpg.givexp:
-    description: Allows the player to give xp
+      pseudorpg.xp: true
+  pseudorpg.skillxp:
+    description: Allows the player to modify skill xp
     default: op
-  rpg.takexp:
-    description: Allows the player to take xp
-    default: op
-  rpg.setxp:
-    description: Allows the player to set xp
-    default: op
-  rpg.reload:
+  pseudorpg.reload:
     description: Allows the player to reload the plugin
     default: op
-  rpg.reset:
+  pseudorpg.reset:
     description: Allows the player to reset the plugin
     default: op
-  rpg.*:
-    description: Gives the user all RPG permissions
+    children:
+      pseudorpg.reload: true
+  pseudorpg.reloadlocalization:
+    description: Allows the player to reload the localization
+    default: op
+  pseudorpg.resetlocalization:
+    description: Allows the player to reset the localization
     default: op
     children:
-      rpg.reload: true
-      rpg.reset: true
-      rpg.xp: true
-      rpg.xp.other: true
-      rpg.givexp: true
-      rpg.takexp: true
-      rpg.setxp: true
+      pseudorpg.reloadlocalization: true
+  pseudorpg.*:
+    description: Gives the user all PseudoRPG permissions
+    default: op
+    children:
+      pseudorpg.reset: true
+      pseudorpg.resetlocalization: true
+      pseudorpg.xp.others: true
+      pseudorpg.skillxp: true
